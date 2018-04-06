@@ -17,3 +17,4 @@ temp-properties-files-for-site/
 **/*.checkstyle
 **/*.fbExcludeFilterFile
 
+/modules/events/nbproject/

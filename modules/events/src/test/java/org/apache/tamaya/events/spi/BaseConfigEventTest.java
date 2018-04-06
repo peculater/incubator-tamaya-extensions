@@ -16,30 +16,34 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.tamaya.events;
+package org.apache.tamaya.events.spi;
 
+import java.util.UUID;
+import static org.assertj.core.api.Assertions.assertThat;
+import org.assertj.core.data.Offset;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
 /**
- * Tests for {@link ConfigEventManager}.
+ *
+ * @author William.Lieurance 2018-03-26
  */
-public class ConfigEventManagerTest {
-
-    private Object testAddListenerValue;
+public class BaseConfigEventTest {
+    
 
     @Test
-    public void testAddRemoveListener() throws Exception {
-        ConfigEventListener testListener = (ConfigEvent<?> event) -> {
-            testAddListenerValue = event.getResource();
-        };
-        ConfigEventManager.addListener(testListener);
-        ConfigEventManager.fireEvent(new SimpleEvent("Event1"));
-        assertEquals(testAddListenerValue, "Event1");
-        ConfigEventManager.removeListener(testListener);
-        ConfigEventManager.fireEvent(new SimpleEvent("Event2"));
-        assertEquals(testAddListenerValue, "Event1");
+    public void testBaseConfigEvent() {
+        SomeBaseConfigEvent someEvent = new SomeBaseConfigEvent();
+        //Within an hour anyhow
+        assertThat(someEvent.getTimestamp()).isGreaterThan(0L);
+        assertThat(someEvent.getResourceType()).isEqualTo(String.class);
+        assertThat(UUID.fromString(someEvent.getVersion())).isNotNull();
     }
 
+    public class SomeBaseConfigEvent extends BaseConfigEvent {
+
+        public SomeBaseConfigEvent() {
+            super("SomeString", String.class);
+        }
+    }
+    
 }
