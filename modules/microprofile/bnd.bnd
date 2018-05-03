@@ -9,6 +9,7 @@
 javac.source: 1.8
 javac.target: 1.8
 
+Automatic-Module-Name: org.apache.tamaya.microprofile
 Bundle-Version: ${version}.${tstamp}
 Bundle-Name: Apache Tamaya - Microprofile
 Bundle-SymbolicName: org.apache.tamaya.microprofile
@@ -18,7 +19,7 @@ Bundle-Copyright: (C) Apache Foundation
 Bundle-License: Apache Licence version 2
 Bundle-Vendor: Apache Software Foundation
 Bundle-ContactAddress: dev-tamaya@incubator.apache.org
-Bundle-DocURL: http://tamaya.apache.org
+Bundle-DocURL: https://tamaya.apache.org
 Export-Package: \
 	org.apache.tamaya.microprofile,\
     org.apache.tamaya.microprofile.cdi,\
