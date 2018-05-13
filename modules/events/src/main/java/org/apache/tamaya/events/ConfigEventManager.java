@@ -64,7 +64,7 @@ public final class ConfigEventManager {
      * @param eventType the event type to which this listener listens to.
      */
 	public static <T extends ConfigEvent> void addListener(ConfigEventListener l, Class<T> eventType) {
-        spi().addListener(l);
+        spi().addListener(l, eventType);
     }
 
     /**
@@ -84,7 +84,7 @@ public final class ConfigEventManager {
      * @param eventType the event type to which this listener listens to.
      */
 	public static <T extends ConfigEvent> void removeListener(ConfigEventListener l, Class<T> eventType) {
-        spi().removeListener(l);
+        spi().removeListener(l, eventType);
     }
 
     /**

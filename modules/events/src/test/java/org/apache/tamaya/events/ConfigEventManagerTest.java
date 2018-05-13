@@ -31,15 +31,36 @@ public class ConfigEventManagerTest {
 
     @Test
     public void testAddRemoveListener() throws Exception {
+        int initialListenerCount = ConfigEventManager.getListeners().size();
         ConfigEventListener testListener = (ConfigEvent<?> event) -> {
             testAddListenerValue = event.getResource();
         };
+        
         ConfigEventManager.addListener(testListener);
         ConfigEventManager.fireEvent(new SimpleEvent("Event1"));
         assertEquals(testAddListenerValue, "Event1");
+        assertEquals(initialListenerCount + 1, ConfigEventManager.getListeners().size());
         ConfigEventManager.removeListener(testListener);
         ConfigEventManager.fireEvent(new SimpleEvent("Event2"));
         assertEquals(testAddListenerValue, "Event1");
+        assertEquals(initialListenerCount, ConfigEventManager.getListeners().size());
     }
 
+    @Test
+    public void testAddRemoveParameterizedListener() throws Exception {
+        int initialListenerCount = ConfigEventManager.getListeners(SimpleEvent.class).size();
+        ConfigEventListener testListener = (ConfigEvent<?> event) -> {
+            testAddListenerValue = event.getResource();
+        };
+        
+        ConfigEventManager.addListener(testListener, SimpleEvent.class);
+        ConfigEventManager.fireEvent(new SimpleEvent("Event1"));
+        assertEquals(testAddListenerValue, "Event1");
+        assertEquals(initialListenerCount + 1, ConfigEventManager.getListeners(SimpleEvent.class).size());
+        ConfigEventManager.removeListener(testListener, SimpleEvent.class);
+        ConfigEventManager.fireEvent(new SimpleEvent("Event2"));
+        assertEquals(testAddListenerValue, "Event1");
+        assertEquals(initialListenerCount, ConfigEventManager.getListeners(SimpleEvent.class).size());
+    }
+    
 }
