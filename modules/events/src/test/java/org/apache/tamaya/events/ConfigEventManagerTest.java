@@ -63,4 +63,18 @@ public class ConfigEventManagerTest {
         assertEquals(initialListenerCount, ConfigEventManager.getListeners(SimpleEvent.class).size());
     }
     
+    @Test
+    public void testEnableDisable() throws Exception {
+        boolean initialIsChangeMonitoring = ConfigEventManager.isChangeMonitoring();
+        long initialMonitoringPeriod = ConfigEventManager.getChangeMonitoringPeriod();
+        
+        ConfigEventManager.enableChangeMonitoring(!initialIsChangeMonitoring);
+        ConfigEventManager.setChangeMonitoringPeriod(initialMonitoringPeriod+1000);
+        assertEquals(!initialIsChangeMonitoring, ConfigEventManager.isChangeMonitoring());
+        assertEquals(initialMonitoringPeriod+1000, ConfigEventManager.getChangeMonitoringPeriod());
+        
+        ConfigEventManager.enableChangeMonitoring(initialIsChangeMonitoring);
+        ConfigEventManager.setChangeMonitoringPeriod(initialMonitoringPeriod);
+    }
+    
 }
