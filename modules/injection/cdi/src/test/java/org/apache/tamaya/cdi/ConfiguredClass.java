@@ -22,8 +22,10 @@ package org.apache.tamaya.cdi;
 
 import org.apache.tamaya.inject.api.Config;
 
+import java.util.Optional;
 import javax.inject.Singleton;
 import java.math.BigDecimal;
+import javax.inject.Inject;
 
 /**
  * Class to be loaded from CDI to ensure fields are correctly configured using CDI injection mechanisms.
@@ -31,8 +33,14 @@ import java.math.BigDecimal;
 @Singleton
 public class ConfiguredClass{
 
+    //Config values come from the TestPropertySource during producertest
     @Config
     private String testProperty;
+    
+    //Inject+Config values come from javaconfiguration.properties during BTest
+    @Inject
+    @Config
+    private String injectedTestProperty;
 
     @Config(value = {"a.b.c.key1","a.b.c.key2","a.b.c.key3"}, defaultValue = "The current \\${JAVA_HOME} env property is ${env:JAVA_HOME}.")
     String value1;
@@ -61,10 +69,33 @@ public class ConfiguredClass{
     @Config("double1")
     private double doubleValue;
 
+    @Config
+    private Optional<String> optionalStringWithValue;
+    
+    @Inject
+    @Config
+    private Optional<String> injectedOptionalStringWithValue;
+
+    @Inject
+    @Config(value="optionalStringMissingValue", required=false)
+    private Optional<String> optionalStringMissingValue;
+    
+    @Inject
+    @Config(value="stringMissingValue", required=false)
+    private String stringMissingValue;
+
+    @Inject
+    @Config(value="optionalStringMissingValueWithDefault", defaultValue="optionalStringDefaultValue", required=false)
+    private Optional<String> optionalStringMissingValueWithDefault;
+
     public String getTestProperty() {
         return testProperty;
     }
 
+    public String getInjectedTestProperty() {
+        return injectedTestProperty;
+    }
+    
     public String getValue1() {
         return value1;
     }
@@ -100,6 +131,28 @@ public class ConfiguredClass{
     public double getDoubleValue() {
         return doubleValue;
     }
+
+    public Optional<String> getOptionalStringWithValue() {
+        return optionalStringWithValue;
+    }
+
+    public Optional<String> getInjectedOptionalStringWithValue() {
+        return injectedOptionalStringWithValue;
+    }
+
+    public Optional<String> getOptionalStringMissingValue() {
+        return optionalStringMissingValue;
+    }
+
+    public String getStringMissingValue() {
+        return stringMissingValue;
+    }
+
+    public Optional<String> getOptionalStringMissingValueWithDefault() {
+        return optionalStringMissingValueWithDefault;
+    }
+
+    
 
     @Override
 	public String toString(){
