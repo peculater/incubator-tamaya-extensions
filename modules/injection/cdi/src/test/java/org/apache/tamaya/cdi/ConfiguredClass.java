@@ -33,14 +33,20 @@ import javax.inject.Inject;
 @Singleton
 public class ConfiguredClass{
 
-    //Config values come from the TestPropertySource during producertest
+    //Config values come from the TestPropertySource during ConfigurationProducerTest
     @Config
     private String testProperty;
     
-    //Inject+Config values come from javaconfiguration.properties during BTest
+    //Inject+Config values come from javaconfiguration.properties during ConfiguredBTest
     @Inject
     @Config
     private String injectedTestProperty;
+          
+    //@Inject will throw an NPE with a null assignment, before getting to required=false
+    //  because our tests are run in @ApplicationScope, and null @Producer has to be in
+    //  @Dependent scope (CDI 2.0 spec section 3.2)
+    @Config(value="stringMissingValue", required=false)
+    private String stringMissingValue;
 
     @Config(value = {"a.b.c.key1","a.b.c.key2","a.b.c.key3"}, defaultValue = "The current \\${JAVA_HOME} env property is ${env:JAVA_HOME}.")
     String value1;
@@ -68,10 +74,10 @@ public class ConfiguredClass{
 
     @Config("double1")
     private double doubleValue;
-
+ 
     @Config
     private Optional<String> optionalStringWithValue;
-   
+    
     @Inject
     @Config
     private Optional<String> injectedOptionalStringWithValue;
@@ -80,10 +86,6 @@ public class ConfiguredClass{
     @Config(value="optionalStringMissingValue", required=false)
     private Optional<String> optionalStringMissingValue;
     
-    //@Inject will throw an NPE with a null assignment, before getting to required=false
-    @Config(value="stringMissingValue", required=false)
-    private String stringMissingValue;
-
     @Inject
     @Config(value="optionalStringMissingValueWithDefault", defaultValue="optionalStringDefaultValue", required=false)
     private Optional<String> optionalStringMissingValueWithDefault;
@@ -136,23 +138,21 @@ public class ConfiguredClass{
         return optionalStringWithValue;
     }
 
-    public Optional<String> getInjectedOptionalStringWithValue() {
-        return injectedOptionalStringWithValue;
-    }
-
-    //public Optional<String> getOptionalStringMissingValue() {
-    //    return optionalStringMissingValue;
-    //}
-
     public String getStringMissingValue() {
         return stringMissingValue;
     }
 
-    //public Optional<String> getOptionalStringMissingValueWithDefault() {
-    //    return optionalStringMissingValueWithDefault;
-    //}
+    public Optional<String> getInjectedOptionalStringWithValue() {
+        return injectedOptionalStringWithValue;
+    }
 
-    
+    public Optional<String> getOptionalStringMissingValue() {
+        return optionalStringMissingValue;
+    }
+
+    public Optional<String> getOptionalStringMissingValueWithDefault() {
+        return optionalStringMissingValueWithDefault;
+    }
 
     @Override
 	public String toString(){

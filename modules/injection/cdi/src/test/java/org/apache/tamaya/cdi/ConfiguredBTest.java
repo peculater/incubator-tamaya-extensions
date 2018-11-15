@@ -20,22 +20,13 @@
 package org.apache.tamaya.cdi;
 
 import org.hamcrest.MatcherAssert;
-import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.shrinkwrap.api.Archive;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.asset.EmptyAsset;
-import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.AdditionalMatchers;
 
 import javax.enterprise.inject.spi.CDI;
-import javax.enterprise.inject.spi.Extension;
 
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
 /**
  * Tests for CDI integration.
@@ -51,4 +42,6 @@ public class ConfiguredBTest extends BaseTestConfiguration {
         double actual = 1234.5678;
         MatcherAssert.assertThat(item.getDoubleValue(), is(actual));
     }
+    
+    
 }
