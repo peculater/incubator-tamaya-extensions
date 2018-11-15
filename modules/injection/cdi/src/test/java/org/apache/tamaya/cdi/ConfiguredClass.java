@@ -71,7 +71,7 @@ public class ConfiguredClass{
 
     @Config
     private Optional<String> optionalStringWithValue;
-    
+   
     @Inject
     @Config
     private Optional<String> injectedOptionalStringWithValue;
@@ -80,7 +80,7 @@ public class ConfiguredClass{
     @Config(value="optionalStringMissingValue", required=false)
     private Optional<String> optionalStringMissingValue;
     
-    @Inject
+    //@Inject will throw an NPE with a null assignment, before getting to required=false
     @Config(value="stringMissingValue", required=false)
     private String stringMissingValue;
 
@@ -140,17 +140,17 @@ public class ConfiguredClass{
         return injectedOptionalStringWithValue;
     }
 
-    public Optional<String> getOptionalStringMissingValue() {
-        return optionalStringMissingValue;
-    }
+    //public Optional<String> getOptionalStringMissingValue() {
+    //    return optionalStringMissingValue;
+    //}
 
     public String getStringMissingValue() {
         return stringMissingValue;
     }
 
-    public Optional<String> getOptionalStringMissingValueWithDefault() {
-        return optionalStringMissingValueWithDefault;
-    }
+    //public Optional<String> getOptionalStringMissingValueWithDefault() {
+    //    return optionalStringMissingValueWithDefault;
+    //}
 
     
 
